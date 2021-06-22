@@ -1028,3 +1028,9 @@ fieldset {
 .hidden {
   display: none;
 }
+
+input:invalid  {
+  outline: none;
+  -webkit-box-shadow: 0 0 2px 2px #DB0B00;
+          box-shadow: 0 0 2px 2px #DB0B00;
+}
