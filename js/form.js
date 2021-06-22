@@ -70,10 +70,10 @@ titleAd.addEventListener('input', () => {
 
 //Количество комнат и количество мест
 roomNumber.addEventListener('change', (evt) => {
-  const changeRoom = evt.target.value;
+  const selectedRoom = evt.target.value;
   (capacityRoomOptions).forEach((capacityRoomOption) => {
-    if (changeRoom < ROOM_NO_GUESTS)  {
-      capacityRoomOption.disabled = capacityRoomOption.value > changeRoom;
+    if (selectedRoom < ROOM_NO_GUESTS)  {
+      capacityRoomOption.disabled = capacityRoomOption.value > selectedRoom;
       capacityRoomOptionNoGuests.disabled = true;
     } else {
       capacityRoomOption.disabled = true;
@@ -83,29 +83,27 @@ roomNumber.addEventListener('change', (evt) => {
 });
 
 //Время заезда, Время выезда
-timeIn.addEventListener('change', (evt) => {
-  const changetimeIn = evt.target.value;
-  timeOutOptions.forEach((timeOutOption) => {
-    if (timeOutOption.value === changetimeIn) {
-      timeOut.value = timeOutOption.value;
+const getControlTime = (timeSelected,timeControl, timeControlOptions) => {
+  timeControlOptions.forEach((timeControlOption) => {
+    if (timeControlOption.value === timeSelected) {
+      timeControl.value = timeControlOption.value;
     }
   });
+};
+
+timeIn.addEventListener('change', (evt) => {
+  getControlTime(evt.target.value, timeOut, timeOutOptions);
 });
 
 timeOut.addEventListener('change', (evt) => {
-  const changetimeOut = evt.target.value;
-  timeInOptions.forEach((timeInOption) => {
-    if (timeInOption.value === changetimeOut) {
-      timeIn.value = timeInOption.value;
-    }
-  });
+  getControlTime(evt.target.value, timeIn, timeInOptions);
 });
 
 // Тип жилья
 typeHousing.addEventListener('change', (evt) => {
-  const changetypeHousing = evt.target.value;
-  priceAd.minlength = MinPriceHousing[changetypeHousing];
-  priceAd.placeholder = MinPriceHousing[changetypeHousing];
+  const selectedtypeHousing = evt.target.value;
+  priceAd.min = MinPriceHousing[selectedtypeHousing];
+  priceAd.placeholder = MinPriceHousing[selectedtypeHousing];
 });
 
 
@@ -113,8 +111,8 @@ typeHousing.addEventListener('change', (evt) => {
 priceAd.addEventListener('input', () => {
   if (priceAd.value > MAX_PRICE) {
     priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
-  } else if (priceAd.value < priceAd.minlength ){
-    priceAd.setCustomValidity(`Цена не может быть меньше ${priceAd.minlength}`);
+  } else if (priceAd.value < priceAd.min ){
+    priceAd.setCustomValidity(`Цена не может быть меньше ${priceAd.min}`);
   } else {
     priceAd.setCustomValidity('');
   }
