@@ -27,12 +27,34 @@ const  toggleInActiveStatePage  = (isInActive) => {
 toggleInActiveStatePage(false);
 
 //ВАЛИДАЦИЯ ФОРМЫ
-
-//Заголовок объявления
 const titleAd = document.querySelector('#title');
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
+const roomNumber = document.querySelector('#room_number');
+const capacityRoom = document.querySelector('#capacity');
+const capacityRoomOptions = capacityRoom.querySelectorAll('option');
+const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
+const ROOM_NO_GUESTS = 100;
+
+const timeIn = document.querySelector('#timein');
+const timeInOptions = timeIn.querySelectorAll('option');
+const timeOut= document.querySelector('#timeout');
+const timeOutOptions = timeOut.querySelectorAll('option');
+
+const typeHousing = document.querySelector('#type');
+const MinPriceHousing = {
+  bungalow: 0,
+  flat: 1000,
+  house: 3000,
+  hotel: 5000,
+  palace:10000,
+};
+
+const priceAd = document.querySelector('#price');
+const MAX_PRICE = 1000000;
+
+//Заголовок объявления
 titleAd.addEventListener('input', () => {
   const valueLength = titleAd.value.length;
 
@@ -46,27 +68,7 @@ titleAd.addEventListener('input', () => {
   titleAd.reportValidity();
 });
 
-//Цена за ночь
-const priceAd = document.querySelector('#price');
-const MAX_PRICE = 1000000;
-
-priceAd.addEventListener('input', () => {
-  if (priceAd.value > MAX_PRICE) {
-    priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
-  } else {
-    priceAd.setCustomValidity('');
-  }
-  priceAd.reportValidity();
-});
-
 //Количество комнат и количество мест
-const roomNumber = document.querySelector('#room_number');
-const capacityRoom = document.querySelector('#capacity');
-const capacityRoomOptions = capacityRoom.querySelectorAll('option');
-const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
-const ROOM_NO_GUESTS = 100;
-
-
 roomNumber.addEventListener('change', (evt) => {
   const changeRoom = evt.target.value;
   (capacityRoomOptions).forEach((capacityRoomOption) => {
@@ -79,3 +81,43 @@ roomNumber.addEventListener('change', (evt) => {
     }
   });
 });
+
+//Время заезда, Время выезда
+timeIn.addEventListener('change', (evt) => {
+  const changetimeIn = evt.target.value;
+  timeOutOptions.forEach((timeOutOption) => {
+    if (timeOutOption.value === changetimeIn) {
+      timeOut.value = timeOutOption.value;
+    }
+  });
+});
+
+timeOut.addEventListener('change', (evt) => {
+  const changetimeOut = evt.target.value;
+  timeInOptions.forEach((timeInOption) => {
+    if (timeInOption.value === changetimeOut) {
+      timeIn.value = timeInOption.value;
+    }
+  });
+});
+
+// Тип жилья
+typeHousing.addEventListener('change', (evt) => {
+  const changetypeHousing = evt.target.value;
+  priceAd.minlength = MinPriceHousing[changetypeHousing];
+  priceAd.placeholder = MinPriceHousing[changetypeHousing];
+});
+
+
+//Цена за ночь
+priceAd.addEventListener('input', () => {
+  if (priceAd.value > MAX_PRICE) {
+    priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
+  } else if (priceAd.value < priceAd.minlength ){
+    priceAd.setCustomValidity(`Цена не может быть меньше ${priceAd.minlength}`);
+  } else {
+    priceAd.setCustomValidity('');
+  }
+  priceAd.reportValidity();
+});
+
