@@ -1,11 +1,11 @@
 const formAd = document.querySelector('.ad-form');
-const headerFormAd = document.querySelector('.ad-form-header');
-const elementsFormAd = document.querySelectorAll('.ad-form__element');
-const buttonSubmitFormAd = document.querySelector('.ad-form__submit');
-const buttonResetFormAd = document.querySelector('.ad-form__reset');
+const headerFormAd = formAd.querySelector('.ad-form-header');
+const elementsFormAd = formAd.querySelectorAll('.ad-form__element');
+const buttonSubmitFormAd = formAd.querySelector('.ad-form__submit');
+const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 const formMap = document.querySelector('.map__filters');
-const listFeaturesMap = document.querySelector('.map__features');
-const filtersMap = document.querySelectorAll('.map__filter');
+const listFeaturesMap = dformMap.querySelector('.map__features');
+const filtersMap = formMap.querySelectorAll('.map__filter');
 
 //ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
 const  toggleInActiveStatePage  = (isInActive) => {
@@ -83,7 +83,7 @@ roomNumber.addEventListener('change', (evt) => {
 });
 
 //Время заезда, Время выезда
-const getControlTime = (timeSelected,timeControl, timeControlOptions) => {
+const setControlTime = (timeSelected,timeControl, timeControlOptions) => {
   timeControlOptions.forEach((timeControlOption) => {
     if (timeControlOption.value === timeSelected) {
       timeControl.value = timeControlOption.value;
@@ -92,11 +92,11 @@ const getControlTime = (timeSelected,timeControl, timeControlOptions) => {
 };
 
 timeIn.addEventListener('change', (evt) => {
-  getControlTime(evt.target.value, timeOut, timeOutOptions);
+  setControlTime(evt.target.value, timeOut, timeOutOptions);
 });
 
 timeOut.addEventListener('change', (evt) => {
-  getControlTime(evt.target.value, timeIn, timeInOptions);
+  setControlTime(evt.target.value, timeIn, timeInOptions);
 });
 
 // Тип жилья
