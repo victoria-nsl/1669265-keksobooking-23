@@ -4,7 +4,7 @@ const elementsFormAd = formAd.querySelectorAll('.ad-form__element');
 const buttonSubmitFormAd = formAd.querySelector('.ad-form__submit');
 const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 const formMap = document.querySelector('.map__filters');
-const listFeaturesMap = dformMap.querySelector('.map__features');
+const listFeaturesMap = formMap.querySelector('.map__features');
 const filtersMap = formMap.querySelectorAll('.map__filter');
 
 //ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
@@ -24,7 +24,7 @@ const  toggleInActiveStatePage  = (isInActive) => {
   filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
 };
 
-toggleInActiveStatePage(false);
+toggleInActiveStatePage(true);
 
 //ВАЛИДАЦИЯ ФОРМЫ
 const titleAd = document.querySelector('#title');
@@ -119,3 +119,4 @@ priceAd.addEventListener('input', () => {
   priceAd.reportValidity();
 });
 
+export {toggleInActiveStatePage};
