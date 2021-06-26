@@ -5,6 +5,10 @@ import {similarOffers, popups} from './popup.js';
 const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
 const LNG_CENTER_TOKIO = 139.69171;
+const ICON_SIZE_MAIN = [52, 52];
+const ICON_ANCOR_MAIN = [26, 52];
+const ICON_SIZE_USIAL = [40, 40];
+const ICON_ANCOR_USIAL = [20, 40];
 
 //Создание карты
 const map = L.map('map-canvas')
@@ -13,8 +17,8 @@ const map = L.map('map-canvas')
     addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: LAT_CENTER_TOKIO,
+    lng: LNG_CENTER_TOKIO,
   }, 12);
 
 //Создание слоя
@@ -28,8 +32,8 @@ L.tileLayer(
 //Специальная, «главная», метка
 const iconMain = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: ICON_SIZE_MAIN,
+  iconAnchor: ICON_ANCOR_MAIN,
 });
 
 
@@ -54,14 +58,14 @@ markerMain.on('moveend', (evt) => {
 
 //Обычная метка
 
-for (let i= 0; i < similarOffers.length; i++) {
-  const lat = similarOffers[i].location.lat;
-  const lng = similarOffers[i].location.lng;
+similarOffers.forEach((similarOffer, index) => {
+  const lat = similarOffer.location.lat;
+  const lng = similarOffer.location.lng;
 
   const iconUsual = L.icon({
     iconUrl: '../img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: ICON_SIZE_USIAL,
+    iconAnchor: ICON_ANCOR_USIAL,
   });
 
   const markerUsual = L.marker(
@@ -75,5 +79,5 @@ for (let i= 0; i < similarOffers.length; i++) {
     },
   );
 
-  markerUsual.addTo(map).bindPopup(popups[i], {keepInView: true});
-}
+  markerUsual.addTo(map).bindPopup(popups[index], {keepInView: true});
+});
