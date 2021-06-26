@@ -2,7 +2,6 @@ import {createOffers} from './create-ten-offers.js';
 
 const templateCard = document.querySelector('#card').content;
 const templatePopup = templateCard.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
 const HousingRussian = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -109,7 +108,4 @@ const popups = similarOffers.map((similarOffer) => {
   return popup;
 });
 
-//ОТРИСОВКА ПЕРВОГО ОБЪЯВЛЕНИЯ В БЛОКЕ С КАРТОЙ
-
-mapCanvas.appendChild(popups[0]);
-
+export {similarOffers, popups};
