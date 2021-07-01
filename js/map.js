@@ -1,7 +1,6 @@
 import {toggleInActiveStatePage} from './form.js';
 import {similarOffers, popups} from './popup.js';
 
-
 const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
 const LNG_CENTER_TOKIO = 139.69171;
@@ -35,7 +34,6 @@ const iconMain = L.icon({
   iconSize: ICON_SIZE_MAIN,
   iconAnchor: ICON_ANCOR_MAIN,
 });
-
 
 const markerMain = L.marker(
   {
@@ -81,3 +79,21 @@ similarOffers.forEach((similarOffer, index) => {
 
   markerUsual.addTo(map).bindPopup(popups[index], {keepInView: true});
 });
+
+
+//Восстановление первоначальных данных карты
+const resetDataMap= () => {
+  map.setView({
+    lat: LAT_CENTER_TOKIO,
+    lng: LNG_CENTER_TOKIO,
+  }, 12);
+
+  markerMain.setLatLng({
+    lat: LAT_CENTER_TOKIO,
+    lng: LNG_CENTER_TOKIO,
+  });
+
+  addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
+};
+
+export {resetDataMap};

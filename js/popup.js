@@ -1,4 +1,4 @@
-import {createOffers} from './create-ten-offers.js';
+import {getData} from './api.js';
 
 const templateCard = document.querySelector('#card').content;
 const templatePopup = templateCard.querySelector('.popup');
@@ -9,8 +9,32 @@ const HousingRussian = {
   palace: 'Дворец',
   hotel: 'Отель',
 };
+const ALERT_SHOW_TIME = 5000;
 
-const similarOffers = createOffers();
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left ='20%';
+  alertContainer.style.top = '30%';
+  alertContainer.style.right = '20%';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';  
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+  alertContainer.style.color = 'white';
+
+  alertContainer.textContent = message;
+  
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+}
+
+const similarOffers = await getData(showAlert);
+
 
 //Функция перевода типа жилища с английского на русский язык
 const  getTypeHousingRussian= (housingType) => HousingRussian[housingType];
@@ -80,31 +104,35 @@ const popups = similarOffers.map((similarOffer) => {
   avatar.src = similarOffer.author.avatar;
 
   //Фото
-  const photosList = popup.querySelector('.popup__photos');
-  const photosPopup  = similarOffer.offer.photos;
+  const photosList = popup.querySelector('.popup__photos');  
   const templatePhotosItem = popup.querySelector('.popup__photo');
-
-  setOfferFieldVisibility(photosList, photosPopup.length);
-  photosList.innerHTML = '';
-  photosPopup.forEach ((photoPopup) =>  {
-    const photoItem = templatePhotosItem.cloneNode(true);
-    photoItem.src = photoPopup;
-    photosList.appendChild(photoItem);
-  });
-
+  
+  if (similarOffer.offer.photos) {
+    const photosPopup  = similarOffer.offer.photos;
+    
+    setOfferFieldVisibility(photosList, photosPopup.length);
+    photosList.innerHTML = '';
+    photosPopup.forEach ((photoPopup) =>  {
+      const photoItem = templatePhotosItem.cloneNode(true);
+      photoItem.src = photoPopup;
+      photosList.appendChild(photoItem);
+    });
+  }
   //Преимущества, удобства
   const featuresList = popup.querySelector('.popup__features');
-  const featuresPopup = similarOffer.offer.features;
 
-  setOfferFieldVisibility(featuresList, featuresPopup.length);
-  featuresList.innerHTML = '';
-  featuresPopup.forEach ((featurePopup) =>  {
-    const featuresItem  = document.createElement('li');
-    featuresItem.classList.add('popup__feature');
-    featuresItem.classList.add(`popup__feature--${featurePopup}`);
-    featuresList.appendChild(featuresItem);
-  });
+  if (similarOffer.offer.features) {
+    const featuresPopup = similarOffer.offer.features;
 
+    setOfferFieldVisibility(featuresList, featuresPopup.length);
+    featuresList.innerHTML = '';
+    featuresPopup.forEach ((featurePopup) =>  {
+      const featuresItem  = document.createElement('li');
+      featuresItem.classList.add('popup__feature');
+      featuresItem.classList.add(`popup__feature--${featurePopup}`);
+      featuresList.appendChild(featuresItem);
+    });  
+  }
   return popup;
 });
 

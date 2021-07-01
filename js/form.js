@@ -119,4 +119,4 @@ priceAd.addEventListener('input', () => {
   priceAd.reportValidity();
 });
 
-export {toggleInActiveStatePage};
+export {toggleInActiveStatePage, formAd, priceAd, buttonResetFormAd};
