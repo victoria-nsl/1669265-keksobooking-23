@@ -1,5 +1,6 @@
-import {toggleInActiveStatePage} from './form.js';
-import {similarOffers, popups} from './popup.js';
+import {toggleInActiveStatePage} from './status-page.js';
+import {createPopups} from './popup.js';
+import {offersPromise} from './api.js';
 
 const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
@@ -53,33 +54,32 @@ markerMain.on('moveend', (evt) => {
   addressAd.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
-
 //Обычная метка
+(async () => {
+  const similarOffers = await offersPromise;
+  const popups = createPopups(similarOffers);
 
-similarOffers.forEach((similarOffer, index) => {
-  const lat = similarOffer.location.lat;
-  const lng = similarOffer.location.lng;
+  similarOffers.forEach((similarOffer, index) => {
+    const lat = similarOffer.location.lat;
+    const lng = similarOffer.location.lng;
+    const iconUsual = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: ICON_SIZE_USIAL,
+      iconAnchor: ICON_ANCOR_USIAL,
+    });
+    const markerUsual = L.marker(
+      {
+        lat,
+        lng,
+      },
 
-  const iconUsual = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: ICON_SIZE_USIAL,
-    iconAnchor: ICON_ANCOR_USIAL,
+      {
+        icon: iconUsual,
+      },
+    );
+    markerUsual.addTo(map).bindPopup(popups[index], {keepInView: true});
   });
-
-  const markerUsual = L.marker(
-    {
-      lat,
-      lng,
-    },
-
-    {
-      icon: iconUsual,
-    },
-  );
-
-  markerUsual.addTo(map).bindPopup(popups[index], {keepInView: true});
-});
-
+}) ();
 
 //Восстановление первоначальных данных карты
 const resetDataMap= () => {
