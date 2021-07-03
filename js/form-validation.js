@@ -1,37 +1,10 @@
-const formAd = document.querySelector('.ad-form');
-const headerFormAd = formAd.querySelector('.ad-form-header');
-const elementsFormAd = formAd.querySelectorAll('.ad-form__element');
-const buttonSubmitFormAd = formAd.querySelector('.ad-form__submit');
-const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
-const formMap = document.querySelector('.map__filters');
-const listFeaturesMap = formMap.querySelector('.map__features');
-const filtersMap = formMap.querySelectorAll('.map__filter');
-
-//ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
-const  toggleInActiveStatePage  = (isInActive) => {
-  if (isInActive) {
-    formAd.classList.add('ad-form--disabled');
-    formMap.classList.add('map__filters--disabled');
-  }  else {
-    formAd.classList.remove('ad-form--disabled');
-    formMap.classList.remove('map__filters--disabled');
-  }
-  headerFormAd.disabled = isInActive;
-  elementsFormAd.forEach((elementFormAd) => {elementFormAd.disabled = isInActive;});
-  buttonSubmitFormAd.disabled = isInActive;
-  buttonResetFormAd.disabled = isInActive;
-  listFeaturesMap.disabled = isInActive;
-  filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
-};
-
-toggleInActiveStatePage(true);
-
 //ВАЛИДАЦИЯ ФОРМЫ
 const titleAd = document.querySelector('#title');
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 const roomNumber = document.querySelector('#room_number');
+const roomNumberSelected = roomNumber.querySelector('[selected]');
 const capacityRoom = document.querySelector('#capacity');
 const capacityRoomOptions = capacityRoom.querySelectorAll('option');
 const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
@@ -44,11 +17,11 @@ const timeOutOptions = timeOut.querySelectorAll('option');
 
 const typeHousing = document.querySelector('#type');
 const MinPriceHousing = {
-  bungalow: 0,
-  flat: 1000,
-  house: 3000,
-  hotel: 5000,
-  palace:10000,
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 3000,
+  HOTEL: 5000,
+  PALACE:10000,
 };
 
 const priceAd = document.querySelector('#price');
@@ -71,7 +44,7 @@ titleAd.addEventListener('input', () => {
 //Количество комнат и количество мест
 roomNumber.addEventListener('change', (evt) => {
   const selectedRoom = evt.target.value;
-  (capacityRoomOptions).forEach((capacityRoomOption) => {
+  capacityRoomOptions.forEach((capacityRoomOption) => {
     if (selectedRoom < ROOM_NO_GUESTS)  {
       capacityRoomOption.disabled = capacityRoomOption.value > selectedRoom;
       capacityRoomOptionNoGuests.disabled = true;
@@ -102,10 +75,9 @@ timeOut.addEventListener('change', (evt) => {
 // Тип жилья
 typeHousing.addEventListener('change', (evt) => {
   const selectedtypeHousing = evt.target.value;
-  priceAd.min = MinPriceHousing[selectedtypeHousing];
-  priceAd.placeholder = MinPriceHousing[selectedtypeHousing];
+  priceAd.min = MinPriceHousing[selectedtypeHousing.toUpperCase()];
+  priceAd.placeholder = MinPriceHousing[selectedtypeHousing.toUpperCase()];
 });
-
 
 //Цена за ночь
 priceAd.addEventListener('input', () => {
@@ -119,4 +91,4 @@ priceAd.addEventListener('input', () => {
   priceAd.reportValidity();
 });
 
-export {toggleInActiveStatePage};
+export {priceAd, MinPriceHousing, roomNumberSelected, capacityRoomOptions, capacityRoomOptionNoGuests};
