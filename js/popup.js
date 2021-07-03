@@ -1,15 +1,15 @@
 const templateCard = document.querySelector('#card').content;
 const templatePopup = templateCard.querySelector('.popup');
 const HousingRussian = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
+  FLAT: 'Квартира',
+  BUNGALOW: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец',
+  HOTEL: 'Отель',
 };
 
 //Функция перевода типа жилища с английского на русский язык
-const  getTypeHousingRussian= (housingType) => HousingRussian[housingType];
+const  getTypeHousingRussian= (housingType) => HousingRussian[housingType.toUpperCase()];
 
 //Функция добавления/удаления класса hidden на поле карточки
 const  setOfferFieldVisibility = (field, visible) => {

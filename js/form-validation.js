@@ -17,11 +17,11 @@ const timeOutOptions = timeOut.querySelectorAll('option');
 
 const typeHousing = document.querySelector('#type');
 const MinPriceHousing = {
-  bungalow: 0,
-  flat: 1000,
-  house: 3000,
-  hotel: 5000,
-  palace:10000,
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 3000,
+  HOTEL: 5000,
+  PALACE:10000,
 };
 
 const priceAd = document.querySelector('#price');
@@ -75,8 +75,8 @@ timeOut.addEventListener('change', (evt) => {
 // Тип жилья
 typeHousing.addEventListener('change', (evt) => {
   const selectedtypeHousing = evt.target.value;
-  priceAd.min = MinPriceHousing[selectedtypeHousing];
-  priceAd.placeholder = MinPriceHousing[selectedtypeHousing];
+  priceAd.min = MinPriceHousing[selectedtypeHousing.toUpperCase()];
+  priceAd.placeholder = MinPriceHousing[selectedtypeHousing.toUpperCase()];
 });
 
 //Цена за ночь

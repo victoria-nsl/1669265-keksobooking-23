@@ -11,8 +11,8 @@ const templatePopupError = templateError.querySelector('.error');
 //ВОССТАНОВЛЕНИЕ ПЕРВОНАЧАЛЬНЫХ ДАННЫХ ФОРМЫ И КАРТЫ
 const restoreData = () => {
   formAd.reset();
-  priceAd.placeholder = MinPriceHousing.flat;
-  priceAd.min = MinPriceHousing.flat;
+  priceAd.placeholder = MinPriceHousing.FLAT;
+  priceAd.min = MinPriceHousing.FLAT;
   capacityRoomOptions.forEach((capacityRoomOption) => {
     capacityRoomOption.disabled = capacityRoomOption.value > roomNumberSelected.value;
     capacityRoomOptionNoGuests.disabled = true;
@@ -38,6 +38,7 @@ const closePopup = () => {
   if (document.body.contains(popupSuccess)) {
     document.body.removeChild(popupSuccess);
     restoreData();
+    return;
   }
   document.body.removeChild(popupError);
 };
@@ -51,19 +52,20 @@ const onPopupEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
     closePopup();
+    document.removeEventListener('keydown', onPopupEscKeydown);
   }
 };
 
 const getPopupSuccess = () => {
   document.body.appendChild(popupSuccess);
-  document.addEventListener('click', onPopupClick);
+  popupSuccess.addEventListener('click', onPopupClick);
   document.addEventListener('keydown', onPopupEscKeydown);
 };
 
 const getPopupError = () => {
   document.body.appendChild(popupError);
   document.addEventListener('keydown', onPopupEscKeydown);
-  document.addEventListener('click', onPopupClick);
+  popupError.addEventListener('click', onPopupClick);
   errorButton.addEventListener('click', onPopupClick);
 };
 
