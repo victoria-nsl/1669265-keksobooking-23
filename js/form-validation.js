@@ -48,9 +48,13 @@ roomNumber.addEventListener('change', (evt) => {
     if (selectedRoom < ROOM_NO_GUESTS)  {
       capacityRoomOption.disabled = capacityRoomOption.value > selectedRoom;
       capacityRoomOptionNoGuests.disabled = true;
+      capacityRoomOption.value === selectedRoom ? capacityRoomOption.selected = true : capacityRoomOption.selected = false;
+      capacityRoomOptionNoGuests.selected = false;
     } else {
       capacityRoomOption.disabled = true;
       capacityRoomOptionNoGuests.disabled = false;
+      capacityRoomOption.selected = false;
+      capacityRoomOptionNoGuests.selected = true;
     }
   });
 });
