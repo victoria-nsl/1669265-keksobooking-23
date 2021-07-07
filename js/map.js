@@ -1,6 +1,7 @@
 import {toggleInActiveStatePage} from './status-page.js';
 import {createPopups} from './popup.js';
 import {offersPromise} from './api.js';
+import {mixArray} from './util.js';
 
 const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
@@ -9,11 +10,13 @@ const ICON_SIZE_MAIN = [52, 52];
 const ICON_ANCOR_MAIN = [26, 52];
 const ICON_SIZE_USIAL = [40, 40];
 const ICON_ANCOR_USIAL = [20, 40];
+const NUMBER_MARKER_MAP = 10;
+
+toggleInActiveStatePage(true);
 
 //Создание карты
 const map = L.map('map-canvas')
   .on('load', () => {
-    toggleInActiveStatePage(false);
     addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
   })
   .setView({
@@ -55,11 +58,14 @@ markerMain.on('moveend', (evt) => {
 });
 
 //Обычная метка
-(async () => {
-  const similarOffers = await offersPromise;
-  const popups = createPopups(similarOffers);
+const markerUsialGroup = L.layerGroup().addTo(map);
 
-  similarOffers.forEach((similarOffer, index) => {
+const setMarkerUsualOnMap = (offers) => {
+  markerUsialGroup.clearLayers();
+  const mixedOffers = mixArray(offers);
+  const offersMap = mixedOffers.slice(0, NUMBER_MARKER_MAP);
+  const popups = createPopups(offersMap);
+  offersMap.forEach((similarOffer, index) => {
     const lat = similarOffer.location.lat;
     const lng = similarOffer.location.lng;
     const iconUsual = L.icon({
@@ -77,9 +83,16 @@ markerMain.on('moveend', (evt) => {
         icon: iconUsual,
       },
     );
-    markerUsual.addTo(map).bindPopup(popups[index], {keepInView: true});
+    markerUsual.addTo(markerUsialGroup).bindPopup(popups[index], {keepInView: true});
   });
+};
+
+(async () => {
+  const similarOffers = await offersPromise;
+  setMarkerUsualOnMap(similarOffers);
 }) ();
+
+toggleInActiveStatePage(false);
 
 //Восстановление первоначальных данных карты
 const resetDataMap= () => {
@@ -94,6 +107,10 @@ const resetDataMap= () => {
   });
 
   addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
+  (async () => {
+    const similarOffers = await offersPromise;
+    setMarkerUsualOnMap(similarOffers);
+  }) ();
 };
 
-export {resetDataMap};
+export {resetDataMap, setMarkerUsualOnMap};

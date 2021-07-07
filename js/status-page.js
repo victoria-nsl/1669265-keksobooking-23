@@ -24,6 +24,4 @@ const  toggleInActiveStatePage  = (isInActive) => {
   filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
 };
 
-toggleInActiveStatePage(true);
-
-export {toggleInActiveStatePage, formAd, formMap, buttonResetFormAd};
+export {toggleInActiveStatePage, formAd, formMap, buttonResetFormAd, listFeaturesMap};

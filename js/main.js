@@ -1,3 +1,4 @@
+import './map.js';
 import './form-validation.js';
 import './form-send.js';
-import './map.js';
+import './map-filters.js';
