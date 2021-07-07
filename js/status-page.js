@@ -11,17 +11,23 @@ const filtersMap = formMap.querySelectorAll('.map__filter');
 const  toggleInActiveStatePage  = (isInActive) => {
   if (isInActive) {
     formAd.classList.add('ad-form--disabled');
-    formMap.classList.add('map__filters--disabled');
   }  else {
     formAd.classList.remove('ad-form--disabled');
-    formMap.classList.remove('map__filters--disabled');
   }
   headerFormAd.disabled = isInActive;
   elementsFormAd.forEach((elementFormAd) => {elementFormAd.disabled = isInActive;});
   buttonSubmitFormAd.disabled = isInActive;
   buttonResetFormAd.disabled = isInActive;
+};
+
+const  toggleInActiveMapFilters  = (isInActive) => {
+  if (isInActive) {
+    formMap.classList.add('map__filters--disabled');
+  }  else {
+    formMap.classList.remove('map__filters--disabled');
+  }
   listFeaturesMap.disabled = isInActive;
   filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
 };
 
-export {toggleInActiveStatePage, formAd, formMap, buttonResetFormAd, listFeaturesMap};
+export {toggleInActiveStatePage, toggleInActiveMapFilters, formAd, formMap, buttonResetFormAd, listFeaturesMap};

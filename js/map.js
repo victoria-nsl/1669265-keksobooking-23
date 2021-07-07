@@ -1,7 +1,6 @@
-import {toggleInActiveStatePage} from './status-page.js';
+import {toggleInActiveStatePage, toggleInActiveMapFilters} from './status-page.js';
 import {createPopups} from './popup.js';
 import {offersPromise} from './api.js';
-import {mixArray} from './util.js';
 
 const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
@@ -13,10 +12,12 @@ const ICON_ANCOR_USIAL = [20, 40];
 const NUMBER_MARKER_MAP = 10;
 
 toggleInActiveStatePage(true);
+toggleInActiveMapFilters(true);
 
 //Создание карты
 const map = L.map('map-canvas')
   .on('load', () => {
+    toggleInActiveStatePage(false);
     addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
   })
   .setView({
@@ -61,9 +62,11 @@ markerMain.on('moveend', (evt) => {
 const markerUsialGroup = L.layerGroup().addTo(map);
 
 const setMarkerUsualOnMap = (offers) => {
+  if (!offers) {
+    return;
+  }
   markerUsialGroup.clearLayers();
-  const mixedOffers = mixArray(offers);
-  const offersMap = mixedOffers.slice(0, NUMBER_MARKER_MAP);
+  const offersMap = offers.slice(0, NUMBER_MARKER_MAP);
   const popups = createPopups(offersMap);
   offersMap.forEach((similarOffer, index) => {
     const lat = similarOffer.location.lat;
@@ -90,9 +93,8 @@ const setMarkerUsualOnMap = (offers) => {
 (async () => {
   const similarOffers = await offersPromise;
   setMarkerUsualOnMap(similarOffers);
+  toggleInActiveMapFilters(false);
 }) ();
-
-toggleInActiveStatePage(false);
 
 //Восстановление первоначальных данных карты
 const resetDataMap= () => {
@@ -110,6 +112,7 @@ const resetDataMap= () => {
   (async () => {
     const similarOffers = await offersPromise;
     setMarkerUsualOnMap(similarOffers);
+    toggleInActiveMapFilters(false);
   }) ();
 };
 

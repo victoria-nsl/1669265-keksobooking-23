@@ -3,7 +3,7 @@ const ALERT_SHOW_TIME = 5000;
 //Функция показа окна  сообщения
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
+  alertContainer.style.zIndex = 1000;
   alertContainer.style.position = 'absolute';
   alertContainer.style.left ='20%';
   alertContainer.style.top = '30%';
@@ -22,15 +22,6 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-//Функция перемешивания элементов в массиве, пример с сайта https://learn.javascript.ru/task/shuffle
-const mixArray = (array) => {
-  for (let counterFirst = array.length - 1; counterFirst > 0; counterFirst--) {
-    const counterSecond = Math.floor(Math.random() * (counterFirst + 1));
-    [array[counterFirst], array[counterSecond]] = [array[counterSecond], array[counterFirst]];
-  }
-  return array;
-};
-
 // Функция для устранения дребезга
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
@@ -43,4 +34,4 @@ const debounce = (callback, timeoutDelay) => {
 //Функция проверки клавиши Esc
 const isEscEvent = (evt) =>  evt.key === 'Escape' || evt.key === 'Esc';
 
-export {showAlert, mixArray, debounce, isEscEvent};
+export {showAlert, debounce, isEscEvent};
