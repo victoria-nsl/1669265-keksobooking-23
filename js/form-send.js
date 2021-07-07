@@ -1,8 +1,10 @@
 import {sendData} from './api.js';
-import {formAd, formMap,buttonResetFormAd} from './status-page.js';
+import {formAd, formMap} from './status-page.js';
 import {priceAd, MinPriceHousing, roomNumberSelected, capacityRoomOptions, capacityRoomOptionNoGuests} from './form-validation.js';
 import {resetDataMap} from './map.js';
 import {isEscEvent} from './util.js';
+
+const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 
 const templateSuccess = document.querySelector('#success').content;
 const templatePopupSuccess = templateSuccess.querySelector('.success');

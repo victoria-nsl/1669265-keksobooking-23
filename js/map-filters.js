@@ -43,75 +43,75 @@ const ValuesGuestsFilter = {
   NOT_GIEST: 0,
 };
 
-const  createFilteredOffers = () => {
-  (async () => {
-    const similarOffers = await offersPromise;
+const  createFilteredOffers = debounce(async () => {
+  const similarOffers = await offersPromise;
 
-    const typeFilter = typeHousingFilter.value;
-    const priceFilter = priceHousingFilter.value;
-    const roomsFilter = roomsHousingFilter.value;
-    const guestsFilter = guestsHousingFilter.value;
+  const typeFilter = typeHousingFilter.value;
+  const priceFilter = priceHousingFilter.value;
+  const roomsFilter = roomsHousingFilter.value;
+  const guestsFilter = guestsHousingFilter.value;
 
-    const getSelectedFeatures = () => {
-      const selectedFeatures = [];
-      featuresHousingFilters.forEach((feature) => {
-        if (feature.checked) {
-          selectedFeatures.push(feature.value);
-        }
-      });
-      return selectedFeatures;
+  const getSelectedFeatures = () => {
+    const selectedFeatures = [];
+    featuresHousingFilters.forEach((feature) => {
+      if (feature.checked) {
+        selectedFeatures.push(feature.value);
+      }
+    });
+    return selectedFeatures;
+  };
+
+  const featuresFilter = getSelectedFeatures();
+
+  const filteredOffers = similarOffers.filter((similarOffer) => {
+
+    const isTypeMatch = (checkedObject,valueFulter) => {
+      if (valueFulter !== ValuesTypeHousingFilter.ANY) {
+        return checkedObject.offer.type === valueFulter;
+      }
+      return true;
     };
 
-    const featuresFilter = getSelectedFeatures();
-
-    const filteredOffers = similarOffers.filter((similarOffer) => {
-
-      const isTypeMatch = (checkedObject,valueFulter) => {
-        if (valueFulter !== ValuesTypeHousingFilter.ANY) {
-          return checkedObject.offer.type === valueFulter;
-        }
-        return true;
-      };
-
-      const isPriceMatch = (checkedObject,valueFulter) => {
-        if ((valueFulter ===  ValuesPriceFilter.ANY) ||
+    const isPriceMatch = (checkedObject,valueFulter) => {
+      if ((valueFulter ===  ValuesPriceFilter.ANY) ||
         (valueFulter ===  ValuesPriceFilter.MIDDLE && checkedObject.offer.price >= LOW_PRICE
         && checkedObject.offer.price <= HIGH_PRICE) ||
         (valueFulter ===  ValuesPriceFilter.LOW && checkedObject.offer.price < LOW_PRICE) ||
         (valueFulter ===  ValuesPriceFilter.HIGH && checkedObject.offer.price > HIGH_PRICE)) {
-          return true;
-        }
-        return false;
-      };
-
-      const isRoomsMatch = (checkedObject,valueFulter) => {
-        if (valueFulter !== ValuesRoomsFilter.ANY) {
-          return checkedObject.offer.rooms === +valueFulter;
-        }
         return true;
-      };
+      }
+      return false;
+    };
 
-      const isGuestsMatch = (checkedObject,valueFulter) => {
-        if (valueFulter !==  ValuesGuestsFilter.ANY) {
-          return checkedObject.offer.guests === +valueFulter;
-        }
-        return true;
-      };
+    const isRoomsMatch = (checkedObject,valueFulter) => {
+      if (valueFulter !== ValuesRoomsFilter.ANY) {
+        return checkedObject.offer.rooms === +valueFulter;
+      }
+      return true;
+    };
 
-      const isFeaturesMatch = (checkedObject,valuesFulter) => {
-        if (checkedObject.offer.features) {
-          return valuesFulter.every((valueFulter) => checkedObject.offer.features.includes(valueFulter));
-        }
-        return false;
-      };
+    const isGuestsMatch = (checkedObject,valueFulter) => {
+      if (valueFulter !==  ValuesGuestsFilter.ANY) {
+        return checkedObject.offer.guests === +valueFulter;
+      }
+      return true;
+    };
 
-      return isTypeMatch(similarOffer,typeFilter) && isPriceMatch(similarOffer, priceFilter) &&
-      isRoomsMatch(similarOffer, roomsFilter) && isGuestsMatch(similarOffer, guestsFilter)  &&
-      isFeaturesMatch(similarOffer, featuresFilter);
-    });
-    debounce(setMarkerUsualOnMap(filteredOffers),RERENDER_DELAY);
-  })();
-};
+    const isFeaturesMatch = (checkedObject,valuesFulter) => {
+      if (checkedObject.offer.features) {
+        return valuesFulter.every((valueFulter) => checkedObject.offer.features.includes(valueFulter));
+      }
+      return false;
+    };
+
+    return isTypeMatch(similarOffer,typeFilter) && isPriceMatch(similarOffer, priceFilter) &&
+    isRoomsMatch(similarOffer, roomsFilter) && isGuestsMatch(similarOffer, guestsFilter)  &&
+    isFeaturesMatch(similarOffer, featuresFilter);
+  });
+  setMarkerUsualOnMap(filteredOffers);
+
+}, RERENDER_DELAY);
+
 
 formMap.addEventListener('change', () => {
   createFilteredOffers();

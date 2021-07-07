@@ -1,14 +1,12 @@
 const formAd = document.querySelector('.ad-form');
 const headerFormAd = formAd.querySelector('.ad-form-header');
 const elementsFormAd = formAd.querySelectorAll('.ad-form__element');
-const buttonSubmitFormAd = formAd.querySelector('.ad-form__submit');
-const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 const formMap = document.querySelector('.map__filters');
 const listFeaturesMap = formMap.querySelector('.map__features');
 const filtersMap = formMap.querySelectorAll('.map__filter');
 
-//ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
-const  toggleInActiveStatePage  = (isInActive) => {
+//ФУНКЦИИ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
+const  toggleDisabledStatePage  = (isInActive) => {
   if (isInActive) {
     formAd.classList.add('ad-form--disabled');
   }  else {
@@ -16,11 +14,9 @@ const  toggleInActiveStatePage  = (isInActive) => {
   }
   headerFormAd.disabled = isInActive;
   elementsFormAd.forEach((elementFormAd) => {elementFormAd.disabled = isInActive;});
-  buttonSubmitFormAd.disabled = isInActive;
-  buttonResetFormAd.disabled = isInActive;
 };
 
-const  toggleInActiveMapFilters  = (isInActive) => {
+const  toggleDisabledMapFilters  = (isInActive) => {
   if (isInActive) {
     formMap.classList.add('map__filters--disabled');
   }  else {
@@ -30,4 +26,4 @@ const  toggleInActiveMapFilters  = (isInActive) => {
   filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
 };
 
-export {toggleInActiveStatePage, toggleInActiveMapFilters, formAd, formMap, buttonResetFormAd, listFeaturesMap};
+export {toggleDisabledStatePage, toggleDisabledMapFilters, formAd, formMap, listFeaturesMap};

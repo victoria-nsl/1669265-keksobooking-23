@@ -1,4 +1,4 @@
-import {toggleInActiveStatePage, toggleInActiveMapFilters} from './status-page.js';
+import {toggleDisabledStatePage, toggleDisabledMapFilters} from './status-page.js';
 import {createPopups} from './popup.js';
 import {offersPromise} from './api.js';
 
@@ -11,13 +11,13 @@ const ICON_SIZE_USIAL = [40, 40];
 const ICON_ANCOR_USIAL = [20, 40];
 const NUMBER_MARKER_MAP = 10;
 
-toggleInActiveStatePage(true);
-toggleInActiveMapFilters(true);
+toggleDisabledStatePage(true);
+toggleDisabledMapFilters(true);
 
 //Создание карты
 const map = L.map('map-canvas')
   .on('load', () => {
-    toggleInActiveStatePage(false);
+    toggleDisabledStatePage(false);
     addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
   })
   .setView({
@@ -93,7 +93,7 @@ const setMarkerUsualOnMap = (offers) => {
 (async () => {
   const similarOffers = await offersPromise;
   setMarkerUsualOnMap(similarOffers);
-  toggleInActiveMapFilters(false);
+  toggleDisabledMapFilters(false);
 }) ();
 
 //Восстановление первоначальных данных карты
@@ -112,7 +112,6 @@ const resetDataMap= () => {
   (async () => {
     const similarOffers = await offersPromise;
     setMarkerUsualOnMap(similarOffers);
-    toggleInActiveMapFilters(false);
   }) ();
 };
 

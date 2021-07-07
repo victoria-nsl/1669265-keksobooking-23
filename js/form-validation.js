@@ -85,9 +85,9 @@ typeHousing.addEventListener('change', (evt) => {
 
 //Цена за ночь
 priceAd.addEventListener('input', () => {
-  if (priceAd.value > MAX_PRICE) {
+  if (+priceAd.value > MAX_PRICE) {
     priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
-  } else if (priceAd.value < priceAd.min ){
+  } else if (+priceAd.value < +priceAd.min ){
     priceAd.setCustomValidity(`Цена не может быть меньше ${priceAd.min}`);
   } else {
     priceAd.setCustomValidity('');
