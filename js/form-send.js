@@ -3,6 +3,7 @@ import {formAd, formMap} from './status-page.js';
 import {priceAd, MinPriceHousing, roomNumberSelected, capacityRoomOptions, capacityRoomOptionNoGuests} from './form-validation.js';
 import {resetDataMap} from './map.js';
 import {isEscEvent} from './util.js';
+import {previewAvatar, previewPhotoContainer, previewPhoto} from './photos.js';
 
 const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 
@@ -22,6 +23,8 @@ const restoreData = () => {
   });
   resetDataMap();
   formMap.reset();
+  previewAvatar.src = 'img/muffin-grey.svg';
+  previewPhotoContainer.removeChild(previewPhoto);
 };
 
 //ВОССТАНОВЛЕНИЕ ПЕРВОНАЧАЛЬНЫХ ДАННЫХ ПРИ НАЖАТИИ НА КНОПКУ ОЧИСТИТЬ
