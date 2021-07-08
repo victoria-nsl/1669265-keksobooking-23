@@ -48,9 +48,13 @@ roomNumber.addEventListener('change', (evt) => {
     if (selectedRoom < ROOM_NO_GUESTS)  {
       capacityRoomOption.disabled = capacityRoomOption.value > selectedRoom;
       capacityRoomOptionNoGuests.disabled = true;
+      capacityRoomOption.value === selectedRoom ? capacityRoomOption.selected = true : capacityRoomOption.selected = false;
+      capacityRoomOptionNoGuests.selected = false;
     } else {
       capacityRoomOption.disabled = true;
       capacityRoomOptionNoGuests.disabled = false;
+      capacityRoomOption.selected = false;
+      capacityRoomOptionNoGuests.selected = true;
     }
   });
 });
@@ -81,9 +85,9 @@ typeHousing.addEventListener('change', (evt) => {
 
 //Цена за ночь
 priceAd.addEventListener('input', () => {
-  if (priceAd.value > MAX_PRICE) {
+  if (+priceAd.value > MAX_PRICE) {
     priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
-  } else if (priceAd.value < priceAd.min ){
+  } else if (+priceAd.value < +priceAd.min ){
     priceAd.setCustomValidity(`Цена не может быть меньше ${priceAd.min}`);
   } else {
     priceAd.setCustomValidity('');

@@ -77,7 +77,10 @@ const createPopups = (similarOffers) =>
         photoItem.src = photoPopup;
         photosList.appendChild(photoItem);
       });
+    } else {
+      photosList.classList.add('hidden');
     }
+
     //Преимущества, удобства
     const featuresList = popup.querySelector('.popup__features');
     if (similarOffer.offer.features) {
@@ -90,6 +93,8 @@ const createPopups = (similarOffers) =>
         featuresItem.classList.add(`popup__feature--${featurePopup}`);
         featuresList.appendChild(featuresItem);
       });
+    } else {
+      featuresList.classList.add('hidden');
     }
     return popup;
   });
