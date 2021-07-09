@@ -1,11 +1,27 @@
 import {sendData} from './api.js';
-import {formAd, formMap} from './status-page.js';
-import {priceAd, MinPriceHousing, roomNumberSelected, capacityRoomOptions, capacityRoomOptionNoGuests} from './form-validation.js';
 import {resetDataMap} from './map.js';
 import {isEscEvent} from './util.js';
-import {previewAvatar, previewPhotoContainer, previewPhoto} from './photos.js';
+import {previewPhoto} from './photos.js';
 
+const MinPriceHousing = {
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 3000,
+  HOTEL: 5000,
+  PALACE:10000,
+};
+const formAd = document.querySelector('.ad-form');
+const previewAvatar = formAd.querySelector('.ad-form-header__preview img');
+const priceAd = formAd.querySelector('#price');
+const roomNumber = formAd.querySelector('#room_number');
+const roomNumberSelected = roomNumber.querySelector('[selected]');
+const capacityRoom = formAd.querySelector('#capacity');
+const capacityRoomOptions = capacityRoom.querySelectorAll('option');
+const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
+const previewPhotoContainer = formAd.querySelector('.ad-form__photo');
 const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
+
+const formMap = document.querySelector('.map__filters');
 
 const templateSuccess = document.querySelector('#success').content;
 const templatePopupSuccess = templateSuccess.querySelector('.success');
@@ -24,7 +40,9 @@ const restoreData = () => {
   resetDataMap();
   formMap.reset();
   previewAvatar.src = 'img/muffin-grey.svg';
-  previewPhotoContainer.removeChild(previewPhoto);
+  if (previewPhotoContainer.contains(previewPhoto)) {
+    previewPhotoContainer.removeChild(previewPhoto);
+  }
 };
 
 //ВОССТАНОВЛЕНИЕ ПЕРВОНАЧАЛЬНЫХ ДАННЫХ ПРИ НАЖАТИИ НА КНОПКУ ОЧИСТИТЬ

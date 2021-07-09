@@ -1,5 +1,3 @@
-const templateCard = document.querySelector('#card').content;
-const templatePopup = templateCard.querySelector('.popup');
 const HousingRussian = {
   FLAT: 'Квартира',
   BUNGALOW: 'Бунгало',
@@ -7,6 +5,9 @@ const HousingRussian = {
   PALACE: 'Дворец',
   HOTEL: 'Отель',
 };
+
+const templateCard = document.querySelector('#card').content;
+const templatePopup = templateCard.querySelector('.popup');
 
 //Функция перевода типа жилища с английского на русский язык
 const  getTypeHousingRussian= (housingType) => HousingRussian[housingType.toUpperCase()];

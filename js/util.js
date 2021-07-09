@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const KEY_ESCAPE= 'Escape';
+const KEY_ESC = 'Esc';
 
 //Функция показа окна  сообщения
 const showAlert = (message) => {
@@ -32,6 +34,6 @@ const debounce = (callback, timeoutDelay) => {
 };
 
 //Функция проверки клавиши Esc
-const isEscEvent = (evt) =>  evt.key === 'Escape' || evt.key === 'Esc';
+const isEscEvent = (evt) =>  evt.key ===  KEY_ESCAPE || evt.key === KEY_ESC;
 
 export {showAlert, debounce, isEscEvent};

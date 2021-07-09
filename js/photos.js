@@ -1,9 +1,10 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-const fileChooserAvatar = document.querySelector('.ad-form-header__input');
-const previewAvatar = document.querySelector('.ad-form-header__preview img');
-const fileChooserPhoto = document.querySelector('.ad-form__input');
-const previewPhotoContainer = document.querySelector('.ad-form__photo');
+const formAd = document.querySelector('.ad-form');
+const fileChooserAvatar = formAd.querySelector('.ad-form-header__input');
+const previewAvatar = formAd.querySelector('.ad-form-header__preview img');
+const fileChooserPhoto = formAd.querySelector('.ad-form__input');
+const previewPhotoContainer = formAd.querySelector('.ad-form__photo');
 
 const uploadPhoto = (fileChooser,preview) => {
   const file = fileChooser.files[0];
@@ -34,4 +35,4 @@ fileChooserPhoto.addEventListener('change', () => {
   uploadPhoto(fileChooserPhoto,previewPhoto);
 });
 
-export {previewAvatar, previewPhotoContainer, previewPhoto};
+export {previewPhoto};

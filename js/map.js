@@ -2,7 +2,6 @@ import {toggleDisabledStatePage, toggleDisabledMapFilters} from './status-page.j
 import {createPopups} from './popup.js';
 import {offersPromise} from './api.js';
 
-const addressAd = document.querySelector('#address');
 const LAT_CENTER_TOKIO = 35.68950;
 const LNG_CENTER_TOKIO = 139.69171;
 const ICON_SIZE_MAIN = [52, 52];
@@ -11,6 +10,10 @@ const ICON_SIZE_USIAL = [40, 40];
 const ICON_ANCOR_USIAL = [20, 40];
 const NUMBER_MARKER_MAP = 10;
 
+const addressAd = document.querySelector('#address');
+
+const createAddress = (latitude,longitude) => `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+
 toggleDisabledStatePage(true);
 toggleDisabledMapFilters(true);
 
@@ -18,7 +21,7 @@ toggleDisabledMapFilters(true);
 const map = L.map('map-canvas')
   .on('load', () => {
     toggleDisabledStatePage(false);
-    addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
+    addressAd.value = createAddress(LAT_CENTER_TOKIO, LNG_CENTER_TOKIO);
   })
   .setView({
     lat: LAT_CENTER_TOKIO,
@@ -55,17 +58,17 @@ const markerMain = L.marker(
 markerMain.addTo(map);
 
 markerMain.on('moveend', (evt) => {
-  addressAd.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+  addressAd.value = createAddress(evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
 //Обычная метка
-const markerUsialGroup = L.layerGroup().addTo(map);
+const markerUsualGroup = L.layerGroup().addTo(map);
 
 const setMarkerUsualOnMap = (offers) => {
   if (!offers) {
     return;
   }
-  markerUsialGroup.clearLayers();
+  markerUsualGroup.clearLayers();
   const offersMap = offers.slice(0, NUMBER_MARKER_MAP);
   const popups = createPopups(offersMap);
   offersMap.forEach((similarOffer, index) => {
@@ -86,7 +89,7 @@ const setMarkerUsualOnMap = (offers) => {
         icon: iconUsual,
       },
     );
-    markerUsual.addTo(markerUsialGroup).bindPopup(popups[index], {keepInView: true});
+    markerUsual.addTo(markerUsualGroup).bindPopup(popups[index], {keepInView: true});
   });
 };
 
@@ -108,7 +111,7 @@ const resetDataMap= () => {
     lng: LNG_CENTER_TOKIO,
   });
 
-  addressAd.value = `${LAT_CENTER_TOKIO}, ${LNG_CENTER_TOKIO}`;
+  addressAd.value = createAddress(LAT_CENTER_TOKIO, LNG_CENTER_TOKIO);
   (async () => {
     const similarOffers = await offersPromise;
     setMarkerUsualOnMap(similarOffers);

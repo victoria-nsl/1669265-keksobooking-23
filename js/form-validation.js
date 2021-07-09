@@ -1,21 +1,9 @@
 //ВАЛИДАЦИЯ ФОРМЫ
-const titleAd = document.querySelector('#title');
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
+const ROOM_NOT_GUESTS = 100;
+const MAX_PRICE = 1000000;
 
-const roomNumber = document.querySelector('#room_number');
-const roomNumberSelected = roomNumber.querySelector('[selected]');
-const capacityRoom = document.querySelector('#capacity');
-const capacityRoomOptions = capacityRoom.querySelectorAll('option');
-const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
-const ROOM_NO_GUESTS = 100;
-
-const timeIn = document.querySelector('#timein');
-const timeInOptions = timeIn.querySelectorAll('option');
-const timeOut= document.querySelector('#timeout');
-const timeOutOptions = timeOut.querySelectorAll('option');
-
-const typeHousing = document.querySelector('#type');
 const MinPriceHousing = {
   BUNGALOW: 0,
   FLAT: 1000,
@@ -24,8 +12,16 @@ const MinPriceHousing = {
   PALACE:10000,
 };
 
-const priceAd = document.querySelector('#price');
-const MAX_PRICE = 1000000;
+const formAd = document.querySelector('.ad-form');
+const titleAd = formAd.querySelector('#title');
+const typeHousing = formAd.querySelector('#type');
+const priceAd = formAd.querySelector('#price');
+const timeIn = formAd.querySelector('#timein');
+const timeOut= formAd.querySelector('#timeout');
+const roomNumber = formAd.querySelector('#room_number');
+const capacityRoom = formAd.querySelector('#capacity');
+const capacityRoomOptions = capacityRoom.querySelectorAll('option');
+const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
 
 //Заголовок объявления
 titleAd.addEventListener('input', () => {
@@ -42,45 +38,55 @@ titleAd.addEventListener('input', () => {
 });
 
 //Количество комнат и количество мест
+
+const setOptionAttributes = (attribute, isDisabled, isSelected) => {
+  attribute.disabled =  isDisabled;
+  attribute.selected =  isSelected;
+};
+
 roomNumber.addEventListener('change', (evt) => {
   const selectedRoom = evt.target.value;
   capacityRoomOptions.forEach((capacityRoomOption) => {
-    if (selectedRoom < ROOM_NO_GUESTS)  {
-      capacityRoomOption.disabled = capacityRoomOption.value > selectedRoom;
-      capacityRoomOptionNoGuests.disabled = true;
-      capacityRoomOption.value === selectedRoom ? capacityRoomOption.selected = true : capacityRoomOption.selected = false;
-      capacityRoomOptionNoGuests.selected = false;
-    } else {
-      capacityRoomOption.disabled = true;
-      capacityRoomOptionNoGuests.disabled = false;
-      capacityRoomOption.selected = false;
-      capacityRoomOptionNoGuests.selected = true;
+    if (selectedRoom < ROOM_NOT_GUESTS)  {
+      if (capacityRoomOption.value > selectedRoom && capacityRoomOption.value === selectedRoom) {
+        setOptionAttributes(capacityRoomOption, true, true);
+      }
+      if (capacityRoomOption.value <= selectedRoom && capacityRoomOption.value === selectedRoom) {
+        setOptionAttributes(capacityRoomOption, false, true);
+      }
+      if (capacityRoomOption.value > selectedRoom && capacityRoomOption.value !== selectedRoom) {
+        setOptionAttributes(capacityRoomOption, true, false);
+      }
+      if (capacityRoomOption.value <= selectedRoom && capacityRoomOption.value !== selectedRoom) {
+        setOptionAttributes(capacityRoomOption, false, false);
+      }
+      setOptionAttributes(capacityRoomOptionNoGuests, true, false);
+      return;
     }
+    setOptionAttributes(capacityRoomOption, true, false);
+    setOptionAttributes(capacityRoomOptionNoGuests, false, true);
   });
 });
 
 //Время заезда, Время выезда
-const setControlTime = (timeSelected,timeControl, timeControlOptions) => {
-  timeControlOptions.forEach((timeControlOption) => {
-    if (timeControlOption.value === timeSelected) {
-      timeControl.value = timeControlOption.value;
-    }
-  });
+
+const setControlTime = (timeFirst,timeSecond) => {
+  timeSecond.value = timeFirst.value;
 };
 
 timeIn.addEventListener('change', (evt) => {
-  setControlTime(evt.target.value, timeOut, timeOutOptions);
+  setControlTime(evt.target, timeOut);
 });
 
 timeOut.addEventListener('change', (evt) => {
-  setControlTime(evt.target.value, timeIn, timeInOptions);
+  setControlTime(evt.target, timeIn);
 });
 
 // Тип жилья
 typeHousing.addEventListener('change', (evt) => {
-  const selectedtypeHousing = evt.target.value;
-  priceAd.min = MinPriceHousing[selectedtypeHousing.toUpperCase()];
-  priceAd.placeholder = MinPriceHousing[selectedtypeHousing.toUpperCase()];
+  const typeHousingSelected = evt.target.value;
+  priceAd.min = MinPriceHousing[typeHousingSelected.toUpperCase()];
+  priceAd.placeholder = MinPriceHousing[typeHousingSelected.toUpperCase()];
 });
 
 //Цена за ночь
@@ -94,5 +100,3 @@ priceAd.addEventListener('input', () => {
   }
   priceAd.reportValidity();
 });
-
-export {priceAd, MinPriceHousing, roomNumberSelected, capacityRoomOptions, capacityRoomOptionNoGuests};

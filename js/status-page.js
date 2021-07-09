@@ -26,4 +26,4 @@ const  toggleDisabledMapFilters  = (isInActive) => {
   filtersMap.forEach((filterMap) => {filterMap.disabled = isInActive;});
 };
 
-export {toggleDisabledStatePage, toggleDisabledMapFilters, formAd, formMap, listFeaturesMap};
+export {toggleDisabledStatePage, toggleDisabledMapFilters};
