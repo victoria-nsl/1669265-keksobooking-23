@@ -5,6 +5,7 @@ import {debounce} from './util.js';
 const RERENDER_DELAY = 500;
 const LOW_PRICE = 10000;
 const HIGH_PRICE = 50000;
+const ANY_VALUE = 'any';
 
 const ValuesPriceFilter = {
   ANY: 'any',
@@ -31,18 +32,18 @@ const getSelectedFeatures = () => {
   return selectedFeatures;
 };
 
-const isValueMatch = (valueСheckedObject, valueFilter) => valueFilter !=='any' ?  valueСheckedObject === +valueFilter : true;
+const isValueMatch = (valueChecked, valueFilter) => valueFilter !== ANY_VALUE ?  valueChecked === +valueFilter : true;
 
-const isTypeMatch = (valueСheckedObject,valueFilter) => valueFilter !== 'any' ? valueСheckedObject === valueFilter : true;
+const isTypeMatch = (valueChecked,valueFilter) => valueFilter !==  ANY_VALUE ? valueChecked === valueFilter : true;
 
-const isFeaturesMatch = (valueСheckedObject,valuesFilter) => valueСheckedObject ? valuesFilter.every((valueFilter) => valueСheckedObject.includes(valueFilter)) : false;
+const isFeaturesMatch = (valueChecked,valuesFilter) => valueChecked ? valuesFilter.every((valueFilter) => valueChecked.includes(valueFilter)) : false;
 
-const isPriceMatch = (valueСheckedObject,valueFilter) => {
+const isPriceMatch = (valueChecked,valueFilter) => {
 
   const isAnyFilter = valueFilter ===  ValuesPriceFilter.ANY;
-  const isMiddleFilter = valueFilter ===  ValuesPriceFilter.MIDDLE && valueСheckedObject >= LOW_PRICE && valueСheckedObject <= HIGH_PRICE;
-  const isLowFilter = valueFilter ===  ValuesPriceFilter.LOW && valueСheckedObject < LOW_PRICE;
-  const isHighFilter =  valueFilter ===  ValuesPriceFilter.HIGH && valueСheckedObject > HIGH_PRICE;
+  const isMiddleFilter = valueFilter ===  ValuesPriceFilter.MIDDLE && valueChecked >= LOW_PRICE && valueChecked <= HIGH_PRICE;
+  const isLowFilter = valueFilter ===  ValuesPriceFilter.LOW && valueChecked < LOW_PRICE;
+  const isHighFilter =  valueFilter ===  ValuesPriceFilter.HIGH && valueChecked > HIGH_PRICE;
 
   return isAnyFilter || isMiddleFilter || isLowFilter || isHighFilter;
 };

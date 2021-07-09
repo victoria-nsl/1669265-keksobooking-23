@@ -48,18 +48,7 @@ roomNumber.addEventListener('change', (evt) => {
   const selectedRoom = evt.target.value;
   capacityRoomOptions.forEach((capacityRoomOption) => {
     if (selectedRoom < ROOM_NOT_GUESTS)  {
-      if (capacityRoomOption.value > selectedRoom && capacityRoomOption.value === selectedRoom) {
-        setOptionAttributes(capacityRoomOption, true, true);
-      }
-      if (capacityRoomOption.value <= selectedRoom && capacityRoomOption.value === selectedRoom) {
-        setOptionAttributes(capacityRoomOption, false, true);
-      }
-      if (capacityRoomOption.value > selectedRoom && capacityRoomOption.value !== selectedRoom) {
-        setOptionAttributes(capacityRoomOption, true, false);
-      }
-      if (capacityRoomOption.value <= selectedRoom && capacityRoomOption.value !== selectedRoom) {
-        setOptionAttributes(capacityRoomOption, false, false);
-      }
+      setOptionAttributes(capacityRoomOption, capacityRoomOption.value > selectedRoom, capacityRoomOption.value === selectedRoom);
       setOptionAttributes(capacityRoomOptionNoGuests, true, false);
       return;
     }

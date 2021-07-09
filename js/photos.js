@@ -34,5 +34,3 @@ fileChooserPhoto.addEventListener('change', () => {
   previewPhotoContainer.appendChild(previewPhoto);
   uploadPhoto(fileChooserPhoto,previewPhoto);
 });
-
-export {previewPhoto};

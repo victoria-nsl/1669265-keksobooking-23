@@ -1,7 +1,6 @@
 import {sendData} from './api.js';
 import {resetDataMap} from './map.js';
 import {isEscEvent} from './util.js';
-import {previewPhoto} from './photos.js';
 
 const MinPriceHousing = {
   BUNGALOW: 0,
@@ -40,6 +39,7 @@ const restoreData = () => {
   resetDataMap();
   formMap.reset();
   previewAvatar.src = 'img/muffin-grey.svg';
+  const previewPhoto = previewPhotoContainer.querySelector('img');
   if (previewPhotoContainer.contains(previewPhoto)) {
     previewPhotoContainer.removeChild(previewPhoto);
   }
