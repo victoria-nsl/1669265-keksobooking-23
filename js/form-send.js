@@ -16,7 +16,7 @@ const roomNumber = formAd.querySelector('#room_number');
 const roomNumberSelected = roomNumber.querySelector('[selected]');
 const capacityRoom = formAd.querySelector('#capacity');
 const capacityRoomOptions = capacityRoom.querySelectorAll('option');
-const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
+const capacityRoomOptionNotGuests = capacityRoom.querySelector('[value="0"]');
 const previewPhotoContainer = formAd.querySelector('.ad-form__photo');
 const buttonResetFormAd = formAd.querySelector('.ad-form__reset');
 
@@ -27,14 +27,13 @@ const templatePopupSuccess = templateSuccess.querySelector('.success');
 const templateError = document.querySelector('#error').content;
 const templatePopupError = templateError.querySelector('.error');
 
-//ВОССТАНОВЛЕНИЕ ПЕРВОНАЧАЛЬНЫХ ДАННЫХ ФОРМЫ И КАРТЫ
 const restoreData = () => {
   formAd.reset();
   priceAd.placeholder = MinPriceHousing.FLAT;
   priceAd.min = MinPriceHousing.FLAT;
   capacityRoomOptions.forEach((capacityRoomOption) => {
     capacityRoomOption.disabled = capacityRoomOption.value > roomNumberSelected.value;
-    capacityRoomOptionNoGuests.disabled = true;
+    capacityRoomOptionNotGuests.disabled = true;
   });
   resetDataMap();
   formMap.reset();
@@ -45,13 +44,11 @@ const restoreData = () => {
   }
 };
 
-//ВОССТАНОВЛЕНИЕ ПЕРВОНАЧАЛЬНЫХ ДАННЫХ ПРИ НАЖАТИИ НА КНОПКУ ОЧИСТИТЬ
 buttonResetFormAd.addEventListener('click', (evt) => {
   evt.preventDefault();
   restoreData();
 });
 
-//ПОКАЗ СООБЩЕНИЙ ОБ УСПЕШНОЙ/НЕУСПЕШНОЙ ОТПРАВКЕ ФОРМЫ
 const popupSuccess = templatePopupSuccess.cloneNode(true);
 const popupError = templatePopupError.cloneNode(true);
 const errorButton = popupError.querySelector('.error__button');
@@ -78,25 +75,24 @@ const onPopupEscKeydown = (evt) => {
   }
 };
 
-const getPopupSuccess = () => {
+const showPopupSuccess = () => {
   document.body.appendChild(popupSuccess);
   popupSuccess.addEventListener('click', onPopupClick);
   document.addEventListener('keydown', onPopupEscKeydown);
 };
 
-const getPopupError = () => {
+const showPopupError = () => {
   document.body.appendChild(popupError);
   document.addEventListener('keydown', onPopupEscKeydown);
   popupError.addEventListener('click', onPopupClick);
   errorButton.addEventListener('click', onPopupClick);
 };
 
-//ОТПРАВКА ФОРМЫ
 formAd.addEventListener('submit', (evt) => {
   evt.preventDefault();
   sendData(
-    getPopupSuccess,
-    getPopupError,
+    showPopupSuccess,
+    showPopupError,
     new FormData(evt.target),
   );
 });

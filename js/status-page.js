@@ -5,7 +5,6 @@ const formMap = document.querySelector('.map__filters');
 const listFeaturesMap = formMap.querySelector('.map__features');
 const filtersMap = formMap.querySelectorAll('.map__filter');
 
-//ФУНКЦИИ ПЕРЕКЛЮЧЕНИЯ АКТИВНОГО/НЕАКТИВНОГО СОСТОЯНИЯ
 const  toggleDisabledStatePage  = (isInActive) => {
   if (isInActive) {
     formAd.classList.add('ad-form--disabled');

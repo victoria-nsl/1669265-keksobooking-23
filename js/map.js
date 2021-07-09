@@ -17,7 +17,6 @@ const createAddress = (latitude,longitude) => `${latitude.toFixed(5)}, ${longitu
 toggleDisabledStatePage(true);
 toggleDisabledMapFilters(true);
 
-//Создание карты
 const map = L.map('map-canvas')
   .on('load', () => {
     toggleDisabledStatePage(false);
@@ -28,7 +27,6 @@ const map = L.map('map-canvas')
     lng: LNG_CENTER_TOKIO,
   }, 12);
 
-//Создание слоя
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
@@ -36,7 +34,6 @@ L.tileLayer(
   },
 ).addTo(map);
 
-//Специальная, «главная», метка
 const iconMain = L.icon({
   iconUrl: '../img/main-pin.svg',
   iconSize: ICON_SIZE_MAIN,
@@ -61,7 +58,6 @@ markerMain.on('moveend', (evt) => {
   addressAd.value = createAddress(evt.target.getLatLng().lat, evt.target.getLatLng().lng);
 });
 
-//Обычная метка
 const markerUsualGroup = L.layerGroup().addTo(map);
 
 const setMarkerUsualOnMap = (offers) => {
@@ -99,7 +95,6 @@ const setMarkerUsualOnMap = (offers) => {
   toggleDisabledMapFilters(false);
 }) ();
 
-//Восстановление первоначальных данных карты
 const resetDataMap= () => {
   map.setView({
     lat: LAT_CENTER_TOKIO,

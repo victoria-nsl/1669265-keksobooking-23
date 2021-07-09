@@ -21,23 +21,20 @@ const timeOut= formAd.querySelector('#timeout');
 const roomNumber = formAd.querySelector('#room_number');
 const capacityRoom = formAd.querySelector('#capacity');
 const capacityRoomOptions = capacityRoom.querySelectorAll('option');
-const capacityRoomOptionNoGuests = capacityRoom.querySelector('[value="0"]');
+const capacityRoomOptionNotGuests = capacityRoom.querySelector('[value="0"]');
 
-//Заголовок объявления
 titleAd.addEventListener('input', () => {
   const valueLength = titleAd.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
-    titleAd.setCustomValidity(`Ещё ${  MIN_TITLE_LENGTH - valueLength } симв.`);
+    titleAd.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
   } else if (valueLength > MAX_TITLE_LENGTH) {
-    titleAd.setCustomValidity(`Удалите лишние ${  valueLength - MAX_TITLE_LENGTH } симв.`);
+    titleAd.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
   } else {
     titleAd.setCustomValidity('');
   }
   titleAd.reportValidity();
 });
-
-//Количество комнат и количество мест
 
 const setOptionAttributes = (attribute, isDisabled, isSelected) => {
   attribute.disabled =  isDisabled;
@@ -49,15 +46,13 @@ roomNumber.addEventListener('change', (evt) => {
   capacityRoomOptions.forEach((capacityRoomOption) => {
     if (selectedRoom < ROOM_NOT_GUESTS)  {
       setOptionAttributes(capacityRoomOption, capacityRoomOption.value > selectedRoom, capacityRoomOption.value === selectedRoom);
-      setOptionAttributes(capacityRoomOptionNoGuests, true, false);
+      setOptionAttributes(capacityRoomOptionNotGuests, true, false);
       return;
     }
     setOptionAttributes(capacityRoomOption, true, false);
-    setOptionAttributes(capacityRoomOptionNoGuests, false, true);
+    setOptionAttributes(capacityRoomOptionNotGuests, false, true);
   });
 });
-
-//Время заезда, Время выезда
 
 const setControlTime = (timeFirst,timeSecond) => {
   timeSecond.value = timeFirst.value;
@@ -71,14 +66,12 @@ timeOut.addEventListener('change', (evt) => {
   setControlTime(evt.target, timeIn);
 });
 
-// Тип жилья
 typeHousing.addEventListener('change', (evt) => {
   const typeHousingSelected = evt.target.value;
   priceAd.min = MinPriceHousing[typeHousingSelected.toUpperCase()];
   priceAd.placeholder = MinPriceHousing[typeHousingSelected.toUpperCase()];
 });
 
-//Цена за ночь
 priceAd.addEventListener('input', () => {
   if (+priceAd.value > MAX_PRICE) {
     priceAd.setCustomValidity('Цена не может быть больше 1 000 000');
