@@ -65,7 +65,7 @@ const createPopups = (similarOffers) =>
 
     const photosList = popup.querySelector('.popup__photos');
     const templatePhotosItem = popup.querySelector('.popup__photo');
-    if (similarOffer.offer.photos) {
+    if (similarOffer.offer.photos && similarOffer.offer.photos.length) {
       const photosPopup  = similarOffer.offer.photos;
       setOfferFieldVisibility(photosList, photosPopup.length);
       photosList.innerHTML = '';
@@ -79,7 +79,7 @@ const createPopups = (similarOffers) =>
     }
 
     const featuresList = popup.querySelector('.popup__features');
-    if (similarOffer.offer.features) {
+    if (similarOffer.offer.features && similarOffer.offer.features.length) {
       const featuresPopup = similarOffer.offer.features;
       setOfferFieldVisibility(featuresList, featuresPopup.length);
       featuresList.innerHTML = '';
