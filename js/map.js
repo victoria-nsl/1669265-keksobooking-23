@@ -4,10 +4,10 @@ import {offersPromise} from './api.js';
 
 const LAT_CENTER_TOKIO = 35.68950;
 const LNG_CENTER_TOKIO = 139.69171;
-const ICON_SIZE_MAIN = [52, 52];
-const ICON_ANCOR_MAIN = [26, 52];
-const ICON_SIZE_USIAL = [40, 40];
-const ICON_ANCOR_USIAL = [20, 40];
+const SIZES_ICON_MAIN = [52, 52];
+const COORDINATES_TIP_ICON_MAIN = [26, 52];
+const SIZES_ICON_USUAL = [40, 40];
+const COORDINATES_TIP_ICON_USUAL = [20, 40];
 const NUMBER_MARKER_MAP = 10;
 
 const addressAd = document.querySelector('#address');
@@ -36,8 +36,8 @@ L.tileLayer(
 
 const iconMain = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: ICON_SIZE_MAIN,
-  iconAnchor: ICON_ANCOR_MAIN,
+  iconSize:  SIZES_ICON_MAIN,
+  iconAnchor: COORDINATES_TIP_ICON_MAIN,
 });
 
 const markerMain = L.marker(
@@ -72,8 +72,8 @@ const setMarkerUsualOnMap = (offers) => {
     const lng = similarOffer.location.lng;
     const iconUsual = L.icon({
       iconUrl: '../img/pin.svg',
-      iconSize: ICON_SIZE_USIAL,
-      iconAnchor: ICON_ANCOR_USIAL,
+      iconSize: SIZES_ICON_USUAL,
+      iconAnchor: COORDINATES_TIP_ICON_USUAL,
     });
     const markerUsual = L.marker(
       {

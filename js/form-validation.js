@@ -22,6 +22,7 @@ const roomNumber = formAd.querySelector('#room_number');
 const capacityRoom = formAd.querySelector('#capacity');
 const capacityRoomOptions = capacityRoom.querySelectorAll('option');
 const capacityRoomOptionNotGuests = capacityRoom.querySelector('[value="0"]');
+const capacityRoomOptionOneGuest = capacityRoom.querySelector('[value="1"]');
 
 titleAd.addEventListener('input', () => {
   const valueLength = titleAd.value.length;
@@ -52,6 +53,10 @@ roomNumber.addEventListener('change', (evt) => {
     setOptionAttributes(capacityRoomOption, true, false);
     setOptionAttributes(capacityRoomOptionNotGuests, false, true);
   });
+});
+
+capacityRoomOptions.forEach((capacityRoomOption) => {
+  capacityRoomOption.disabled = capacityRoomOption.value !== capacityRoomOptionOneGuest.value;
 });
 
 const setControlTime = (timeFirst,timeSecond) => {
